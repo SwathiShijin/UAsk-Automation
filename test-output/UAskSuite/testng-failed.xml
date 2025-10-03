@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [UAskSuite]">
+  <listeners>
+    <listener class-name="utils.TestListener"/>
+  </listeners>
+  <test thread-count="5" name="UIAutomation(failed)">
+    <parameter name="device" value="iPhone14Pro"/>
+    <classes>
+      <class name="com.uask.tests.ChatUITest">
+        <methods>
+          <include name="tc05VerifyMultilingualSupport"/>
+          <include name="setupReport"/>
+          <include name="tearDown"/>
+          <include name="tearDownReport"/>
+          <include name="setup"/>
+        </methods>
+      </class> <!-- com.uask.tests.ChatUITest -->
+    </classes>
+  </test> <!-- UIAutomation(failed) -->
+</suite> <!-- Failed suite [UAskSuite] -->
