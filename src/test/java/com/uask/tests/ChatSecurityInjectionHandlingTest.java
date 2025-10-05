@@ -6,10 +6,12 @@ import com.uask.base.BaseTest;
 import com.uask.pages.ChatPage;
 import com.uask.pages.LoginPage;
 
+import utils.ChatReportUtils;
 import utils.ConfigReader;
 import utils.JsonUtils;
 import utils.Log;
 import utils.TestData;
+import utils.TextUtils;
 
 public class ChatSecurityInjectionHandlingTest  extends BaseTest {
 	
@@ -20,24 +22,38 @@ public class ChatSecurityInjectionHandlingTest  extends BaseTest {
 	public void tc01VerifyChatInputSanitization() {
 		Log.message("tc01VerifyChatInputSanitization: Verify that special characters are rendered harmlessly.");
 
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.clickOnLoginUsingCredential();
-		loginPage.loginToUAsk(userName, password);
+		String userQuestion = "", expectedResponse = "", actualResponse = "";
+		Double threshold, similarityScore = 0.0 ;
+		boolean isValid = false;
+		
+		try {
+			LoginPage loginPage = new LoginPage(driver);
+			loginPage.clickOnLoginUsingCredential();
+			loginPage.loginToUAsk(userName, password);
 
-		ChatPage chatPage = new ChatPage(driver);
-		String filePath = "src/test/resources/test-data.json";
-		TestData question = JsonUtils.getSecurityTestById(filePath, "SEC_01");
+			ChatPage chatPage = new ChatPage(driver);
+			String filePath = "src/test/resources/test-data.json";
+			TestData question = JsonUtils.getSecurityTestById(filePath, "SEC_01");
 
-		String expectedResponse = question.getExpectedFallback();
+			userQuestion = question.getInput();
+			expectedResponse = question.getExpectedFallback();
+			threshold = question.getThreshold();
 
-		if (question != null) {
-			chatPage.enterChatInput(question.getInput());
-			chatPage.clickOnButtonSend();
+			if (question != null) {
+				chatPage.enterChatInput(userQuestion);
+				chatPage.clickOnButtonSend();
 
-			String actualResponse = chatPage.getLastAIMessage(driver);
-			Log.assertThat(actualResponse.contains(expectedResponse),
-					"Chat input is sanitized; malicious scripts are not executed.",
-		            "Chat input is not sanitized; malicious scripts may be executed.");
+				actualResponse = chatPage.getLastAIMessage(driver);
+				similarityScore = TextUtils.getSemanticSimilarity(expectedResponse, actualResponse);
+				isValid = similarityScore >= threshold;
+				Log.assertThat(isValid,
+						"Chat input is sanitized; malicious scripts are not executed.",
+			            "Chat input is not sanitized; malicious scripts may be executed.");
+			}
+		} catch (Exception e) {
+			Log.fail("Error while validating semantic similarity: " + e.getMessage());
+		} finally {
+			ChatReportUtils.logResultHtml(userQuestion, expectedResponse, actualResponse, null, isValid);
 		}
 	}
 
@@ -45,24 +61,39 @@ public class ChatSecurityInjectionHandlingTest  extends BaseTest {
 	public void tc02VerifyAIIgnoresMaliciousPrompts() {
 		Log.message("tc02VerifyAIIgnoresMaliciousPrompts: Verify that AI ignores malicious prompts.");
 
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.clickOnLoginUsingCredential();
-		loginPage.loginToUAsk(userName, password);
+		String userQuestion = "", expectedResponse = "", actualResponse = "";
+		Double threshold, similarityScore = 0.0 ;
+		boolean isValid = false;
+		
+		try {
+			LoginPage loginPage = new LoginPage(driver);
+			loginPage.clickOnLoginUsingCredential();
+			loginPage.loginToUAsk(userName, password);
 
-		ChatPage chatPage = new ChatPage(driver);
-		String filePath = "src/test/resources/test-data.json";
-		TestData question = JsonUtils.getSecurityTestById(filePath, "SEC_02");
+			ChatPage chatPage = new ChatPage(driver);
+			String filePath = "src/test/resources/test-data.json";
+			TestData question = JsonUtils.getSecurityTestById(filePath, "SEC_02");
 
-		String expectedResponse = question.getExpectedFallback();
+			userQuestion = question.getInput();
+			expectedResponse = question.getExpectedFallback();
+			threshold = question.getThreshold();
 
-		if (question != null) {
-			chatPage.enterChatInput(question.getInput());
-			chatPage.clickOnButtonSend();
+			if (question != null) {
+				chatPage.enterChatInput(userQuestion);
+				chatPage.clickOnButtonSend();
 
-			String actualResponse = chatPage.getLastAIMessage(driver);
-			Log.assertThat(actualResponse.contains(expectedResponse),
-					"Chat input is sanitized; malicious scripts are not executed.",
-		            "Chat input is not sanitized; malicious scripts may be executed.");
+				actualResponse = chatPage.getLastAIMessage(driver);
+				similarityScore = TextUtils.getSemanticSimilarity(expectedResponse, actualResponse);
+				isValid = similarityScore >= threshold;
+				
+				Log.assertThat(isValid,
+						"Chat input is sanitized; malicious scripts are not executed.",
+			            "Chat input is not sanitized; malicious scripts may be executed.");
+			}
+		} catch (Exception e) {
+			Log.fail("Error while validating semantic similarity: " + e.getMessage());
+		} finally {
+			ChatReportUtils.logResultHtml(userQuestion, expectedResponse, actualResponse, null, isValid);
 		}
 	}
 }

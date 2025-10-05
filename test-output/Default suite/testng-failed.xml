@@ -5,7 +5,12 @@
     <classes>
       <class name="com.uask.tests.ChatAPITest">
         <methods>
-          <include name="tc01VerifyHelpfulResponse"/>
+          <include name="setupClass"/>
+          <include name="setupReport"/>
+          <include name="tearDown"/>
+          <include name="tc04VerifyCleanFormatting"/>
+          <include name="tearDownReport"/>
+          <include name="setup"/>
           <include name="setup"/>
         </methods>
       </class> <!-- com.uask.tests.ChatAPITest -->

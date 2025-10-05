@@ -5,7 +5,7 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 public class TestListener implements ITestListener {
-
+	
     @Override
     public void onTestSuccess(ITestResult result) {
         Log.pass("Test Passed"); // green in ExtentReport + console
@@ -15,7 +15,7 @@ public class TestListener implements ITestListener {
     public void onTestFailure(ITestResult result) {
         Log.fail("Test Failed");
         if (result.getThrowable() != null) {
-            Log.errorEvent("Reason: " + result.getThrowable().getMessage(), result.getThrowable());
+            Log.errorEvent("Test Failed: " + result.getThrowable().getMessage(), result.getThrowable());
         }
     }
 

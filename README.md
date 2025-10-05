@@ -31,7 +31,7 @@ config.properties      # Configuration properties (Url, username, password, brow
 
 Key Files:
 * JsonUtils.java - Reads questions and security test data from JSON
-* TextUtils.java - Compares AI responses with expected answers (using threshold similarity)
+* TextUtils.java - Compares AI responses with expected answers (using a pre-trained sentence embedding model ("all-MiniLM-L6-v2") from the Sentence-Transformers family)
 * ChatAPITest.java, ChatSecurityInjectionHandlingTest.java, ChatUITest.java - TestNG-based  UI, API and security automation for chat responses
 
 #**Running the Tests**

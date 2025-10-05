@@ -7,21 +7,26 @@ import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.ExtentTest;
 import org.testng.Assert;
+import org.testng.Reporter;
 
 public class Log {
     private static final Logger log = LogManager.getLogger(Log.class);
 
     /** Optional: ExtentTest instance for reporting to ExtentReports */
-    private static ExtentTest extentTest;
+    private static ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
 
     /**
-     * Sets the ExtentTest instance for reporting.
-     *
-     * @param test 
-     * 		- ExtentTest instance for the current test
+     * Set ExtentTest instance for the current thread/test
      */
     public static void setExtentTest(ExtentTest test) {
-        extentTest = test;
+        extentTest.set(test);
+    }
+
+    /**
+     * Get current thread's ExtentTest
+     */
+    public static ExtentTest getTest() {
+        return extentTest.get();
     }
 
     /**
@@ -31,10 +36,11 @@ public class Log {
      * 		- The text message to log
      */
     public static void message(String message) {
-        log.info(message);
-        if (extentTest != null) 
-        	extentTest.log(Status.INFO, message);
-        System.out.println(message);
+		log.info(message);
+		if (getTest() != null)
+			getTest().log(Status.INFO, message);
+		Reporter.log(message + "<br>");
+		System.out.println(message);
     }
 
     /**
@@ -45,9 +51,8 @@ public class Log {
      */
     public static void event(String message) {
         log.debug(message);
-        if (extentTest != null) {
-            extentTest.log(Status.INFO, message);
-        }
+		if (getTest() != null)
+			getTest().log(Status.INFO, message);
     }
 
     /**
@@ -58,10 +63,9 @@ public class Log {
      */
     public static void errorEvent(String message) {
         log.error(message);
-        if (extentTest != null) {
-            extentTest.log(Status.FAIL,
-                MarkupHelper.createLabel(message, ExtentColor.RED));
-        }
+        if (getTest() != null)
+            getTest().log(Status.FAIL, MarkupHelper.createLabel(message, ExtentColor.RED));
+        Reporter.log("<span style='color:red;'>" + message + "</span><br>");
         System.out.println("\u001B[31m" + message + "\u001B[0m"); // red in console
     }
     
@@ -74,11 +78,11 @@ public class Log {
      */
     public static void errorEvent(String message, Throwable throwable) {
         log.error(message, throwable);
-        if (extentTest != null) {
-            extentTest.log(Status.FAIL,
-                MarkupHelper.createLabel(message, ExtentColor.RED));
-            extentTest.fail(throwable);
+        if (getTest() != null) {
+            getTest().log(Status.FAIL, MarkupHelper.createLabel(message, ExtentColor.RED));
+            getTest().fail(throwable);
         }
+        Reporter.log("<span style='color:red;'>" + message + "</span><br>");
         System.out.println("\u001B[31m" + message + "\u001B[0m"); // red in console
     }
     
@@ -90,10 +94,9 @@ public class Log {
      */
     public static void pass(String message) {
     	 log.info("[PASS] " + message);
-         if (extentTest != null) {
-             extentTest.log(Status.PASS,
-                 MarkupHelper.createLabel(message, ExtentColor.GREEN));
-         }
+         if (getTest() != null)
+             getTest().log(Status.PASS, MarkupHelper.createLabel(message, ExtentColor.GREEN));
+         Reporter.log("<span style='color:green;'>" + message + "</span><br>");
          System.out.println("\u001B[32m" + message + "\u001B[0m"); // green in console
     }
 
@@ -105,10 +108,9 @@ public class Log {
      */
     public static void fail(String message) {
     	log.error("[FAIL] " + message);
-        if (extentTest != null) {
-            extentTest.log(Status.FAIL,
-                MarkupHelper.createLabel(message, ExtentColor.RED));
-        }
+        if (getTest() != null)
+            getTest().log(Status.FAIL, MarkupHelper.createLabel(message, ExtentColor.RED));
+        Reporter.log("<span style='color:red;'>" + message + "</span><br>");
         System.out.println("\u001B[31m" + message + "\u001B[0m"); // red in console
     }
 
@@ -119,9 +121,10 @@ public class Log {
      * 		- The warning message to log
      */
     public static void warnEvent(String message) {
-    	log.warn(message);
-        if (extentTest != null) 
-        	extentTest.log(Status.WARNING, message);
+    	log.warn("[WARN] " + message);
+        if (getTest() != null)
+            getTest().log(Status.WARNING, MarkupHelper.createLabel(message, ExtentColor.ORANGE));
+        Reporter.log("<span style='color:orange;'>" + message + "</span><br>");
         System.out.println("\u001B[33m" + message + "\u001B[0m"); // yellow in console
     }
 
@@ -138,14 +141,22 @@ public class Log {
      * 		- The message to log and fail the test if the condition is false.
      */
     public static void assertThat(boolean condition, String passMessage, String failMessage) {
+    	
+    	ExtentTest test = extentTest.get();
         if (condition) {
             log.info(passMessage);
-            if (extentTest != null) extentTest.log(Status.PASS, passMessage);
+            if (test != null) {
+                test.log(Status.PASS, passMessage);
+            }
+            Reporter.log("<span>" + passMessage + "</span><br>");
             System.out.println(passMessage);
             Assert.assertTrue(true, passMessage);
         } else {
             log.error(failMessage);
-            if (extentTest != null) extentTest.log(Status.FAIL, failMessage);
+            if (test != null) {
+                test.log(Status.FAIL, MarkupHelper.createLabel(failMessage, ExtentColor.RED));
+            }
+            Reporter.log("<span style='color:red;'>" + failMessage + "</span><br>");
             System.out.println(failMessage);
             Assert.fail(failMessage);
         }
@@ -186,16 +197,26 @@ public class Log {
      * 		- The message describing the assertion
      */
     public static void assertEquals(Object actual, Object expected, String message) {
-        if (actual.equals(expected)) {
-            log.info(message + " | Expected = " + expected + ", Actual = " + actual);
-            if (extentTest != null) extentTest.log(Status.PASS, message);
-            System.out.println( message);
+    	
+    	ExtentTest test = extentTest.get(); 
+    	String fullMessage = message + " | Expected = " + expected + ", Actual = " + actual;
+    	
+        if ((actual == null && expected == null) || (actual != null && actual.equals(expected))) {
+            log.info(fullMessage);
+            if (test != null) {
+                test.log(Status.PASS, fullMessage);  // Correctly call on ExtentTest instance
+            }
+            Reporter.log("<span style='color:green;'>" + fullMessage + "</span><br>");
+            System.out.println( fullMessage);
             Assert.assertEquals(actual, expected, message);
         } else {
-            log.error(message + " | Expected = " + expected + ", Actual = " + actual);
-            if (extentTest != null) extentTest.log(Status.FAIL, message);
-            System.out.println(message);
-            Assert.fail(message + " | Expected = " + expected + ", Actual = " + actual);
+            log.error(fullMessage);
+            if (test != null) {
+                test.log(Status.FAIL, MarkupHelper.createLabel(fullMessage, ExtentColor.RED));
+            }
+            Reporter.log("<span style='color:red;'>" + fullMessage + "</span><br>");
+            System.out.println(fullMessage);
+            Assert.fail(fullMessage);
         }
     }
 }

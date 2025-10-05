@@ -5,6 +5,7 @@ public class TestData {
 	private String lang;
 	private String input;
 	private String expected;
+	private String actual;
 	private String expectedFallback;
 	private double threshold;
 
@@ -39,6 +40,14 @@ public class TestData {
 
 	public void setExpected(String expected) {
 		this.expected = expected;
+	}
+	
+	public String getActual() {
+		return actual;
+	}
+
+	public void setActual(String actual) {
+		this.actual = actual;
 	}
 
 	public double getThreshold() {

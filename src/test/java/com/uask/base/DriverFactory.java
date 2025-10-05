@@ -9,34 +9,36 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public class DriverFactory {
 
 	/**
-	 * To creates WebDriver with desktop or mobile viewport 
+	 * To creates WebDriver with desktop or mobile viewport
 	 * 
-	 * @param device "desktop" or "mobile" 
+	 * @param device "desktop" or "mobile"
 	 * @return WebDriver instance
 	 */
 	public static WebDriver createDriver(String deviceName) {
 		ChromeOptions options = new ChromeOptions();
-		WebDriver driver;
 
-		if (deviceName.equalsIgnoreCase("desktop")) {
-			driver = new ChromeDriver(options);
+		switch (deviceName.toLowerCase()) {
+		case "desktop":
+			WebDriver driver = new ChromeDriver(options);
 			driver.manage().window().maximize();
-		} else if ("iPhone14Pro".equalsIgnoreCase(deviceName)) {
-			Map<String, Object> deviceMetrics = new HashMap<>();
-			deviceMetrics.put("width", 430);
-			deviceMetrics.put("height", 932);
-			deviceMetrics.put("pixelRatio", 3.0);
-
-			Map<String, Object> mobileEmulation = new HashMap<>();
-			mobileEmulation.put("deviceMetrics", deviceMetrics);
-			mobileEmulation.put("userAgent", "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) "
-					+ "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1");
-
-			options.setExperimentalOption("mobileEmulation", mobileEmulation);
-			driver = new ChromeDriver(options);
-		} else {
-            throw new IllegalArgumentException("Unknown device: " + deviceName);
-        }
-        return driver;
-    }
+			return driver;
+		case "iphone12pro":
+			Map<String, Object> iphone = new HashMap<>();
+			iphone.put("deviceName", "iPhone 12 Pro");
+			options.setExperimentalOption("mobileEmulation", iphone);
+			return new ChromeDriver(options);
+		case "ipad":
+			Map<String, Object> ipad = new HashMap<>();
+			ipad.put("deviceName", "iPad");
+			options.setExperimentalOption("mobileEmulation", ipad);
+			return new ChromeDriver(options);
+		case "android":
+			Map<String, Object> android = new HashMap<>();
+			android.put("deviceName", "Pixel 5"); // choose any Pixel/Android device
+			options.setExperimentalOption("mobileEmulation", android);
+			return new ChromeDriver(options);
+		default:
+			throw new IllegalArgumentException("Unknown device: " + deviceName);
+		}
+	}
 }

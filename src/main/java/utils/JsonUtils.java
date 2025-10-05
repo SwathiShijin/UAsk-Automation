@@ -88,5 +88,26 @@ public class JsonUtils {
         return null;
     }
 	
-
+    /**
+	 * To get the api question details based on id
+	 * 
+	 * @param fileName
+	 * @param id
+	 * @return
+	 */
+	public static TestData getApiQuestionById(String fileName, String id) {
+	    try {
+	        Gson gson = new Gson();
+	        TestDataContainer container = gson.fromJson(new FileReader(fileName), TestDataContainer.class);
+	        if (container != null && container.getApi() != null) {
+	            return container.getApi().stream()
+	                    .filter(c -> c.getId().equals(id))
+	                    .findFirst()
+	                    .orElse(null);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
 }

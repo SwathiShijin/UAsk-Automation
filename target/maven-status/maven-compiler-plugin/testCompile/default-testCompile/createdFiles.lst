@@ -1,0 +1,9 @@
+com\uask\pages\ChatPage.class
+com\uask\base\DriverFactory.class
+com\uask\pages\LoginPage.class
+com\uask\base\UAskUtils.class
+com\uask\tests\ChatAPITest.class
+com\uask\tests\ChatUITest.class
+com\uask\base\APIUtils.class
+com\uask\tests\ChatSecurityInjectionHandlingTest.class
+com\uask\base\BaseTest.class

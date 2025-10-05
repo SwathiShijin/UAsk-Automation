@@ -1,16 +1,32 @@
 <!-- <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd"> -->
-<suite name="UAskSuite">
+<suite name="UAsk Test Suite" parallel="tests" thread-count="2">
 
     <listeners>
-        <listener class-name="utils.TestListener"/>
+        <listener class-name="utils.TestListener" />
     </listeners>
-    
-    <test name="UIAutomation">
-        <parameter name="device" value="iPhone14Pro"/> <!-- used only for device test -->
+
+    <test name="Desktop Tests">
+        <parameter name="device" value="desktop" />
         <classes>
-	            <class name="com.uask.tests.ChatUITest"/>
-	            <class name = "com.uask.tests.ChatSecurityInjectionHandlingTest"/>>
+            <class name="com.uask.tests.ChatUITest">
+                <methods>
+                    <exclude name="tc02VerifyChatWidgetLoadsOnDevice" />
+                </methods>
+            </class>
+            <class name="com.uask.tests.ChatSecurityInjectionHandlingTest" />
+            <class name="com.uask.tests.ChatAPITest" />
         </classes>
     </test>
-</suite>
 
+    <test name="Mobile Tests">
+        <parameter name="device" value="iPhone12Pro" />
+        <classes>
+            <class name="com.uask.tests.ChatUITest">
+                <methods>
+                    <include name="tc02VerifyChatWidgetLoadsOnDevice" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>

@@ -55,11 +55,11 @@ function toggleAllBoxes() {
 <body>
 <h2 align='center'>Default test</h2><table border='1' align="center">
 <tr>
-<td>Tests passed/Failed/Skipped:</td><td>0/1/0</td>
+<td>Tests passed/Failed/Skipped:</td><td>5/0/0</td>
 </tr><tr>
-<td>Started on:</td><td>Thu Oct 02 17:29:10 GST 2025</td>
+<td>Started on:</td><td>Sun Oct 05 19:10:17 GST 2025</td>
 </tr>
-<tr><td>Total time:</td><td>8 seconds (8779 ms)</td>
+<tr><td>Total time:</td><td>74 seconds (74347 ms)</td>
 </tr><tr>
 <td>Included groups:</td><td></td>
 </tr><tr>
@@ -67,8 +67,8 @@ function toggleAllBoxes() {
 </tr>
 </table><p/>
 <small><i>(Hover the method name to see the test class name)</i></small><p/>
-<table width='100%' border='1' class='invocation-failed'>
-<tr><td colspan='4' align='center'><b>FAILED TESTS</b></td></tr>
+<table width='100%' border='1' class='invocation-passed'>
+<tr><td colspan='4' align='center'><b>PASSED TESTS</b></td></tr>
 <tr><td><b>Test method</b></td>
 <td><b>Attribute(s)</b></td>
 <td width="30%"><b>Exception</b></td>
@@ -76,117 +76,77 @@ function toggleAllBoxes() {
 <td><b>Instance</b></td>
 </tr>
 <tr>
-<td title='com.uask.tests.ChatAPITest.tc01VerifyHelpfulResponse()'><b>tc01VerifyHelpfulResponse</b><br>Test class: com.uask.tests.ChatAPITest</td>
-<td><div><pre>java.lang.AssertionError: 1 expectation failed.
-Expected status code &lt;200&gt; but was &lt;405&gt;.
+<td title='com.uask.tests.ChatAPITest.tc04VerifyCleanFormatting()'><b>tc04VerifyCleanFormatting</b><br>Test class: com.uask.tests.ChatAPITest<br/>
+<a href="#Output-137945353" onClick='toggleBox("Output-137945353", this, "Show output", "Hide output");'>Show output</a>
 
-	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
-	at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)
-	at org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrapNoCoerce.callConstructor(ConstructorSite.java:108)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:57)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:263)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)
-	at io.restassured.internal.ResponseSpecificationImpl$HamcrestAssertionClosure.validate(ResponseSpecificationImpl.groovy:512)
-	at io.restassured.internal.ResponseSpecificationImpl$HamcrestAssertionClosure$validate$1.call(Unknown Source)
-	at io.restassured.internal.ResponseSpecificationImpl.validateResponseIfRequired(ResponseSpecificationImpl.groovy:696)
-	at io.restassured.internal.ResponseSpecificationImpl.this$2$validateResponseIfRequired(ResponseSpecificationImpl.groovy)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at org.codehaus.groovy.runtime.callsite.PlainObjectMetaMethodSite.doInvoke(PlainObjectMetaMethodSite.java:43)
-	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSiteNoUnwrapNoCoerce.invoke(PogoMetaMethodSite.java:198)
-	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(PogoMetaMethodSite.java:62)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:185)
-	at io.restassured.internal.ResponseSpecificationImpl.statusCode(ResponseSpecificationImpl.groovy:135)
-	at io.restassured.specification.ResponseSpecification$statusCode$0.callCurrent(Unknown Source)
-	at io.restassured.internal.ResponseSpecificationImpl.statusCode(ResponseSpecificationImpl.groovy:143)
-	at io.restassured.internal.ValidatableResponseOptionsImpl.statusCode(ValidatableResponseOptionsImpl.java:89)
-	at com.uask.base.APIUtils.createNewChat(APIUtils.java:127)
-	at com.uask.tests.ChatAPITest.tc01VerifyHelpfulResponse(ChatAPITest.java:133)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:141)
-	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:686)
-	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:230)
-	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
-	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:992)
-	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:203)
-	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:154)
-	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:134)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at org.testng.TestRunner.privateRun(TestRunner.java:739)
-	at org.testng.TestRunner.run(TestRunner.java:614)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:421)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:413)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:373)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:312)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1274)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1208)
-	at org.testng.TestNG.runSuites(TestNG.java:1112)
-	at org.testng.TestNG.run(TestNG.java:1079)
-	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
-</pre></div><a href='#' onClick='toggleBox("stack-trace1332104174", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
-<div class='stack-trace' id='stack-trace1332104174'><pre>java.lang.AssertionError: 1 expectation failed.
-Expected status code &lt;200&gt; but was &lt;405&gt;.
+<a href="#Output-137945353" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-137945353">
+tc04VerifyCleanFormatting: Verify that user able to see clean response formatting<br><br/>
+<span>AI response look complete and helpful and not have broken HTML tags!</span><br><br/>
+<span style='color:green;'>Test Passed</span><br><br/>
+</div>
+</td>
+<td></td>
+<td>0</td>
+<td>com.uask.tests.ChatAPITest@906d29b</td></tr>
+<tr>
+<td title='com.uask.tests.ChatAPITest.tc02VerifyNoHallucination()'><b>tc02VerifyNoHallucination</b><br>Test class: com.uask.tests.ChatAPITest<br/>
+<a href="#Output-546685745" onClick='toggleBox("Output-546685745", this, "Show output", "Hide output");'>Show output</a>
 
-	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
-	at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)
-	at org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrapNoCoerce.callConstructor(ConstructorSite.java:108)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:57)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:263)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)
-	at io.restassured.internal.ResponseSpecificationImpl$HamcrestAssertionClosure.validate(ResponseSpecificationImpl.groovy:512)
-	at io.restassured.internal.ResponseSpecificationImpl$HamcrestAssertionClosure$validate$1.call(Unknown Source)
-	at io.restassured.internal.ResponseSpecificationImpl.validateResponseIfRequired(ResponseSpecificationImpl.groovy:696)
-	at io.restassured.internal.ResponseSpecificationImpl.this$2$validateResponseIfRequired(ResponseSpecificationImpl.groovy)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at org.codehaus.groovy.runtime.callsite.PlainObjectMetaMethodSite.doInvoke(PlainObjectMetaMethodSite.java:43)
-	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSiteNoUnwrapNoCoerce.invoke(PogoMetaMethodSite.java:198)
-	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(PogoMetaMethodSite.java:62)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:185)
-	at io.restassured.internal.ResponseSpecificationImpl.statusCode(ResponseSpecificationImpl.groovy:135)
-	at io.restassured.specification.ResponseSpecification$statusCode$0.callCurrent(Unknown Source)
-	at io.restassured.internal.ResponseSpecificationImpl.statusCode(ResponseSpecificationImpl.groovy:143)
-	at io.restassured.internal.ValidatableResponseOptionsImpl.statusCode(ValidatableResponseOptionsImpl.java:89)
-	at com.uask.base.APIUtils.createNewChat(APIUtils.java:127)
-	at com.uask.tests.ChatAPITest.tc01VerifyHelpfulResponse(ChatAPITest.java:133)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:141)
-	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:686)
-	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:230)
-	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:63)
-	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:992)
-	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:203)
-	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:154)
-	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:134)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-	at org.testng.TestRunner.privateRun(TestRunner.java:739)
-	at org.testng.TestRunner.run(TestRunner.java:614)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:421)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:413)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:373)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:312)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1274)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1208)
-	at org.testng.TestNG.runSuites(TestNG.java:1112)
-	at org.testng.TestNG.run(TestNG.java:1079)
-	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
-</pre></div></td>
-<td>2</td>
-<td>com.uask.tests.ChatAPITest@302552ec</td></tr>
+<a href="#Output-546685745" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-546685745">
+tc02VerifyNoHallucination: Verify that user able to see proper response, not hallucinated<br><br/>
+<span>Responses are not hallucinated </span><br><br/>
+<span style='color:green;'>Test Passed</span><br><br/>
+</div>
+</td>
+<td></td>
+<td>5</td>
+<td>com.uask.tests.ChatAPITest@906d29b</td></tr>
+<tr>
+<td title='com.uask.tests.ChatAPITest.tc01VerifyHelpfulResponse()'><b>tc01VerifyHelpfulResponse</b><br>Test class: com.uask.tests.ChatAPITest<br/>
+<a href="#Output-1835105031" onClick='toggleBox("Output-1835105031", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-1835105031" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-1835105031">
+tc01VerifyHelpfulResponse: Verify that user able to see helpful ai response<br><br/>
+<span>Response is clear and helpful response to common public service queries</span><br><br/>
+<span style='color:green;'>Test Passed</span><br><br/>
+</div>
+</td>
+<td></td>
+<td>10</td>
+<td>com.uask.tests.ChatAPITest@906d29b</td></tr>
+<tr>
+<td title='com.uask.tests.ChatAPITest.tc03VerifyResponseConsistencyAcrossLanguages()'><b>tc03VerifyResponseConsistencyAcrossLanguages</b><br>Test class: com.uask.tests.ChatAPITest<br/>
+<a href="#Output-1428992213" onClick='toggleBox("Output-1428992213", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-1428992213" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-1428992213">
+tc03VerifyResponseConsistencyAcrossLanguages: Verify that user able to see that responses stay consistent across languages(Arabic and English)<br><br/>
+<span>User can see AI-generated responses are displayed correctly in English.</span><br><br/>
+<span>User can see AI-generated responses are displayed correctly in Arabic.</span><br><br/>
+<span style='color:green;'>Test Passed</span><br><br/>
+</div>
+</td>
+<td></td>
+<td>10</td>
+<td>com.uask.tests.ChatAPITest@906d29b</td></tr>
+<tr>
+<td title='com.uask.tests.ChatAPITest.tc05VerifyFallbackMessage()'><b>tc05VerifyFallbackMessage</b><br>Test class: com.uask.tests.ChatAPITest<br/>
+<a href="#Output-2012237082" onClick='toggleBox("Output-2012237082", this, "Show output", "Hide output");'>Show output</a>
+
+<a href="#Output-2012237082" onClick="toggleAllBoxes();">Show all outputs</a>
+<div class='log' id="Output-2012237082">
+tc05VerifyFallbackMessage: Verify that user able to see proper fallback messages<br><br/>
+tc01VerifyHelpfulResponse: Verify that user able to see helpful ai response<br><br/>
+<span>Fallback message is displayed properly as expected</span><br><br/>
+<span style='color:green;'>Test Passed</span><br><br/>
+</div>
+</td>
+<td></td>
+<td>6</td>
+<td>com.uask.tests.ChatAPITest@906d29b</td></tr>
 </table><p>
 </body>
 </html>

@@ -29,6 +29,21 @@ public class APIUtils {
 
 		return loginResponse.jsonPath().getString("token");
 	}
+	
+	/**
+	 * To get session id
+	 * 
+	 * @param username
+	 * @param password
+	 * @return - String as session id
+	 */
+	public static String getSessionId(String username, String password) {
+		Response loginResponse = RestAssured.given().contentType(ContentType.JSON)
+				.body("{\"email\":\"" + username + "\", \"password\":\"" + password + "\"}")
+				.post(baseUrl + loginEndPoint).then().statusCode(200).extract().response();
+
+		return loginResponse.jsonPath().getString("session_id");
+	}
 
 	/**
 	 * To perform 'POST' request
@@ -91,7 +106,7 @@ public class APIUtils {
                 "  \"chat\": {\n" +
                 "    \"id\": \"\",\n" +
                 "    \"title\": \"New Chat\",\n" +
-                "    \"models\": [\"GovGPT\"],\n" +
+                "    \"models\": [\"gpt-4.1\"],\n" +
                 "    \"params\": {},\n" +
                 "    \"history\": {\n" +
                 "      \"messages\": {\n" +
@@ -102,7 +117,7 @@ public class APIUtils {
                 "          \"role\": \"user\",\n" +
                 "          \"content\": \"" + userMessage + "\",\n" +
                 "          \"timestamp\": " + timestamp + ",\n" +
-                "          \"models\": [\"GovGPT\"],\n" +
+                "          \"models\": [\"gpt-4.1\"],\n" +
                 "          \"features\": {\n" +
                 "            \"web_search\": false,\n" +
                 "            \"deep_search\": false,\n" +
@@ -121,7 +136,7 @@ public class APIUtils {
                 "        \"role\": \"user\",\n" +
                 "        \"content\": \"" + userMessage + "\",\n" +
                 "        \"timestamp\": " + timestamp + ",\n" +
-                "        \"models\": [\"GovGPT\"],\n" +
+                "        \"models\": [\"gpt-4.1\"],\n" +
                 "        \"features\": {\n" +
                 "          \"web_search\": false,\n" +
                 "          \"deep_search\": false,\n" +
@@ -140,45 +155,62 @@ public class APIUtils {
 
         Map<String, String> result = new HashMap<>();
         result.put("chatId", response.jsonPath().getString("id"));
-        result.put("sessionId", response.jsonPath().getString("session_id") != null ? response.jsonPath().getString("session_id") : generateUUID());
         result.put("userMessageId", messageId);
 
         return result;
     }
 
     /**
-     * To get ai response
+     * To get ai assistant response
      * 
      * @param token
      * @param sessionId
      * @param chatId
+     * @param userMessageId
      * @param userMessage
+     * @param assitantMessage
      * @return
      */
-    public static Map<String, String> sendAIResponse(String token, String sessionId, String chatId, String userMessage) {
-        String messageId = generateUUID();
-        long timestamp = Instant.now().getEpochSecond();
-
+    public static Map<String, String> getAIResponse(String token, String sessionId, String chatId, String userMessageId, String userMessage, String assitantMessage) {
+    	String assistantMessageId = generateUUID();
+    	long timestamp = Instant.now().getEpochSecond();
+        
         String payload = "{\n" +
+                "  \"model\": \"gpt-4.1\",\n" +
+                "  \"messages\": [\n" +
+                "    {\n" +
+                "      \"id\": \"" + userMessageId + "\",\n" +
+                "      \"role\": \"user\",\n" +
+                "      \"content\": \"" + userMessage + "\",\n" +
+                "      \"timestamp\":"  + timestamp + "\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"id\": \""+ assistantMessageId + "\",\n" +
+                "      \"role\": \"assistant\",\n" +
+                "      \"content\": \"" + assitantMessage + "\",\n" +
+                "      \"timestamp\": " + timestamp + ",\n" +
+                "      \"sources\": []\n" +
+                "    }\n" +
+                "  ],\n" +
                 "  \"chat_id\": \"" + chatId + "\",\n" +
                 "  \"session_id\": \"" + sessionId + "\",\n" +
-                "  \"messages\": [{\n" +
-                "    \"id\": \"" + messageId + "\",\n" +
-                "    \"role\": \"user\",\n" +
-                "    \"content\": \"" + userMessage + "\",\n" +
-                "    \"timestamp\": " + timestamp + "\n" +
-                "  }]\n" +
+                "  \"id\": \"" +  assistantMessageId + "\"\n" +
                 "}";
-
+        
         Response response = postRequest(aiResponseEndPoint, token, payload);
         response.then().statusCode(200);
 
         Map<String, String> result = new HashMap<>();
-        result.put("assistantResponse", response.jsonPath().getString("messages[1].content"));
-        result.put("assistantMessageId", response.jsonPath().getString("messages[1].id"));
-        result.put("chatId", response.jsonPath().getString("chat_id"));
-        result.put("sessionId", response.jsonPath().getString("session_id"));
+        List<Map<String, Object>> messages = response.jsonPath().getList("messages");
+        String assistantResponse = "";
 
+        for (Map<String, Object> message : messages) {
+            if ("assistant".equals(message.get("role"))) {
+                assistantResponse = (String) message.get("content");
+                break;
+            }
+        }
+        result.put("assistantResponse", assistantResponse);
         return result;
     }
 }
