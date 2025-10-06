@@ -1,11 +1,11 @@
 Copyright (c) 2025 Swathi Vijayan
 
-This project is provided exclusively for the purpose of technical evaluation by NorthBay Solutions (or its representatives) as part of the interview process.
+This project is the intellectual property of Swathi Vijayan and is provided solely for technical evaluation by NorthBay Solutions (or its representatives) as part of the interview process.
 
-Permission is hereby granted to NorthBay Solutions to view, run, and evaluate this codebase for internal interview purposes only.
+Permission is granted to view, execute, and evaluate this codebase exclusively for interview assessment purposes.
 
-Any other use — including but not limited to copying, modifying, distributing, sublicensing, or incorporating any part of this code into commercial, production, or internal tools — is strictly prohibited without explicit written permission from the author.
+Any other use — including but not limited to copying, modifying, distributing, sublicensing, or incorporating any portion of this code into production, commercial, or internal tools — is strictly prohibited without the prior written consent of the author.
 
-No license is granted for commercial use, reproduction, or distribution beyond the scope of the interview process.
+No license is granted beyond the scope of the interview evaluation.
 
 ALL RIGHTS RESERVED.

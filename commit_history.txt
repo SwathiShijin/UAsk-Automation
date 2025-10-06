@@ -1,0 +1,17 @@
+commit b79c157739068a45b86653270b0cdf21dccd8f4f
+Author: SwathiShijin <swathishaila@gmail.com>
+Date:   Mon Oct 6 11:56:38 2025 +0400
+
+    copy restriction
+
+commit 59d55b194cea11b82b7aa7219a99b92ffc54dce8
+Author: SwathiShijin <swathishaila@gmail.com>
+Date:   Sun Oct 5 19:42:40 2025 +0400
+
+    updated semantic similarity and report, emulator
+
+commit 94661b7b78ea485d8c1a704ed2aacb023d369770
+Author: SwathiShijin <swathishaila@gmail.com>
+Date:   Fri Oct 3 17:15:40 2025 +0400
+
+    Adding Uas automation project
