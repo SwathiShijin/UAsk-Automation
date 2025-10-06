@@ -126,3 +126,10 @@ screenshots/
 * API requests handle access token generation and unique UUIDs automatically via utility classes.
 
 * Threshold comparison ensures AI responses meet clarity/accuracy requirements.
+
+> ⚠️ **License & Usage Restriction**  
+> This code is part of a technical interview assignment submitted to NorthBay Solutions.  
+> It is licensed strictly for **evaluation and review purposes only**.  
+> Any other use is prohibited.  
+>  
+> © 2025 Swathi Vijayan. All rights reserved.
