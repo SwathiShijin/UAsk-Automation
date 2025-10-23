@@ -19,7 +19,8 @@ public class ChatPage {
 
 	WebDriver driver;
 	
-	@FindBy(xpath = "//p[text()='GovGPT']")
+	//@FindBy(xpath = "//p[text()='GovGPT']")
+	@FindBy(css = "div[class='welcome-text']")
     WebElement txtTitle;
 	
 	@FindBy(id = "chat-input")

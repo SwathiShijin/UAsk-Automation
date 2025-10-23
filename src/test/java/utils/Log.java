@@ -28,6 +28,86 @@ public class Log {
     public static ExtentTest getTest() {
         return extentTest.get();
     }
+    
+    // ===== Generic logging helper =====
+    /**
+     * Generic logging helper
+     * @param message
+     * @param status
+     * @param color
+     * @param toConsole
+     * @param toLog4j
+     * @param toReporter
+     */
+	private static void logMessage(String message, Status status, ExtentColor color, boolean toConsole, boolean toLog4j, boolean toReporter) {
+
+		// ===== Log4j =====
+		if (toLog4j) {
+			switch (status) {
+			case PASS:
+				log.info("[PASS] " + message);
+				break;
+			case FAIL:
+				log.error("[FAIL] " + message);
+				break;
+			case WARNING:
+				log.warn("[WARN] " + message);
+				break;
+			case INFO:
+			default:
+				log.info(message);
+				break;
+			}
+		}
+
+		// ===== ExtentReports =====
+		ExtentTest test = getTest();
+		if (test != null) {
+			if (status == Status.INFO) {
+				test.log(Status.INFO, message);
+			} else {
+				if (color != null) {
+					test.log(status, MarkupHelper.createLabel(message, color));
+				} else {
+					test.log(status, message);
+				}
+			}
+		}
+
+		// ===== TestNG Reporter =====
+		if (toReporter) {
+			String html;
+			switch (status) {
+			case PASS:
+				html = "<span style='color:green;'>" + message + "</span><br>";
+				break;
+			case FAIL:
+				html = "<span style='color:red;'>" + message + "</span><br>";
+				break;
+			case WARNING:
+				html = "<span style='color:orange;'>" + message + "</span><br>";
+				break;
+			case INFO:
+			default:
+				html = message + "<br>";
+				break;
+			}
+			Reporter.log(html);
+		}
+
+		// ===== Console =====
+		if (toConsole) {
+			String ansiColor = "\u001B[0m"; // default (no color)
+		    if (status == Status.FAIL) {
+		        ansiColor = "\u001B[31m"; // red
+		    } else if (status == Status.WARNING) {
+		        ansiColor = "\u001B[33m"; // yellow
+		    } else if (status == Status.PASS && color != null) {
+		        ansiColor = "\u001B[32m"; // green only if color is provided
+		    }
+		    System.out.println(ansiColor + message + "\u001B[0m");
+		}
+	}
 
     /**
      * To print the given message
@@ -36,11 +116,7 @@ public class Log {
      * 		- The text message to log
      */
     public static void message(String message) {
-		log.info(message);
-		if (getTest() != null)
-			getTest().log(Status.INFO, message);
-		Reporter.log(message + "<br>");
-		System.out.println(message);
+    	logMessage(message, Status.INFO, null, true, true, true);
     }
 
     /**
@@ -50,9 +126,7 @@ public class Log {
      * 		- The debug message to log
      */
     public static void event(String message) {
-        log.debug(message);
-		if (getTest() != null)
-			getTest().log(Status.INFO, message);
+    	logMessage(message, Status.INFO, null, false, true, false);
     }
 
     /**
@@ -62,11 +136,7 @@ public class Log {
      * 		- The error message to log
      */
     public static void errorEvent(String message) {
-        log.error(message);
-        if (getTest() != null)
-            getTest().log(Status.FAIL, MarkupHelper.createLabel(message, ExtentColor.RED));
-        Reporter.log("<span style='color:red;'>" + message + "</span><br>");
-        System.out.println("\u001B[31m" + message + "\u001B[0m"); // red in console
+    	logMessage(message, Status.FAIL, ExtentColor.RED, true, true, true);
     }
     
     /**
@@ -77,13 +147,10 @@ public class Log {
      * @param throwable
      */
     public static void errorEvent(String message, Throwable throwable) {
-        log.error(message, throwable);
-        if (getTest() != null) {
-            getTest().log(Status.FAIL, MarkupHelper.createLabel(message, ExtentColor.RED));
-            getTest().fail(throwable);
-        }
-        Reporter.log("<span style='color:red;'>" + message + "</span><br>");
-        System.out.println("\u001B[31m" + message + "\u001B[0m"); // red in console
+    	log.error(message, throwable);
+        ExtentTest test = getTest();
+        if (test != null) test.fail(throwable);
+        logMessage(message, Status.FAIL, ExtentColor.RED, true, false, true);
     }
     
     /**
@@ -93,11 +160,7 @@ public class Log {
      * 		- message to print
      */
     public static void pass(String message) {
-    	 log.info("[PASS] " + message);
-         if (getTest() != null)
-             getTest().log(Status.PASS, MarkupHelper.createLabel(message, ExtentColor.GREEN));
-         Reporter.log("<span style='color:green;'>" + message + "</span><br>");
-         System.out.println("\u001B[32m" + message + "\u001B[0m"); // green in console
+    	logMessage(message, Status.PASS, ExtentColor.GREEN, true, true, true);
     }
 
     /**
@@ -107,11 +170,8 @@ public class Log {
      * 		- the failure message to log and report
      */
     public static void fail(String message) {
-    	log.error("[FAIL] " + message);
-        if (getTest() != null)
-            getTest().log(Status.FAIL, MarkupHelper.createLabel(message, ExtentColor.RED));
-        Reporter.log("<span style='color:red;'>" + message + "</span><br>");
-        System.out.println("\u001B[31m" + message + "\u001B[0m"); // red in console
+    	logMessage(message, Status.FAIL, ExtentColor.RED, true, true, true);
+        throw new AssertionError(message); 
     }
 
     /**
@@ -121,11 +181,7 @@ public class Log {
      * 		- The warning message to log
      */
     public static void warnEvent(String message) {
-    	log.warn("[WARN] " + message);
-        if (getTest() != null)
-            getTest().log(Status.WARNING, MarkupHelper.createLabel(message, ExtentColor.ORANGE));
-        Reporter.log("<span style='color:orange;'>" + message + "</span><br>");
-        System.out.println("\u001B[33m" + message + "\u001B[0m"); // yellow in console
+    	logMessage(message, Status.WARNING, ExtentColor.ORANGE, true, true, true);
     }
 
     // ===== Assertions with Logging =====
@@ -142,22 +198,11 @@ public class Log {
      */
     public static void assertThat(boolean condition, String passMessage, String failMessage) {
     	
-    	ExtentTest test = extentTest.get();
         if (condition) {
-            log.info(passMessage);
-            if (test != null) {
-                test.log(Status.PASS, passMessage);
-            }
-            Reporter.log("<span>" + passMessage + "</span><br>");
-            System.out.println(passMessage);
+        	logMessage(passMessage, Status.PASS, null, true, true, true);
             Assert.assertTrue(true, passMessage);
         } else {
-            log.error(failMessage);
-            if (test != null) {
-                test.log(Status.FAIL, MarkupHelper.createLabel(failMessage, ExtentColor.RED));
-            }
-            Reporter.log("<span style='color:red;'>" + failMessage + "</span><br>");
-            System.out.println(failMessage);
+        	logMessage(failMessage, Status.FAIL, ExtentColor.RED, true, true, true);
             Assert.fail(failMessage);
         }
     }
@@ -198,24 +243,12 @@ public class Log {
      */
     public static void assertEquals(Object actual, Object expected, String message) {
     	
-    	ExtentTest test = extentTest.get(); 
     	String fullMessage = message + " | Expected = " + expected + ", Actual = " + actual;
-    	
         if ((actual == null && expected == null) || (actual != null && actual.equals(expected))) {
-            log.info(fullMessage);
-            if (test != null) {
-                test.log(Status.PASS, fullMessage);  // Correctly call on ExtentTest instance
-            }
-            Reporter.log("<span style='color:green;'>" + fullMessage + "</span><br>");
-            System.out.println( fullMessage);
+        	logMessage(fullMessage, Status.PASS, null, true, true, true);
             Assert.assertEquals(actual, expected, message);
         } else {
-            log.error(fullMessage);
-            if (test != null) {
-                test.log(Status.FAIL, MarkupHelper.createLabel(fullMessage, ExtentColor.RED));
-            }
-            Reporter.log("<span style='color:red;'>" + fullMessage + "</span><br>");
-            System.out.println(fullMessage);
+        	 logMessage(fullMessage, Status.FAIL, ExtentColor.RED, true, true, true);
             Assert.fail(fullMessage);
         }
     }

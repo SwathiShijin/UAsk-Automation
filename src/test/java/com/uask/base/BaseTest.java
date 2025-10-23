@@ -86,9 +86,6 @@ public class BaseTest {
             // Capture screenshot on failure
              if (result.getStatus() == ITestResult.FAILURE && driver != null) {
                 takeScreenshot(result.getName());
-                if (test != null) {
-                    test.fail("Test failed: " + result.getThrowable());
-                }
             } else if (result.getStatus() == ITestResult.SKIP) {
                 if (test != null) {
                     test.skip("Test skipped: " + result.getThrowable());

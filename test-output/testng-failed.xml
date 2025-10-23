@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite thread-count="2" parallel="tests" name="Failed suite [UAsk Test Suite]">
-  <listeners>
-    <listener class-name="utils.TestListener"/>
-  </listeners>
-  <test thread-count="2" parallel="tests" name="Desktop Tests(failed)">
-    <parameter name="device" value="desktop"/>
+<suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="Default test(failed)">
     <classes>
       <class name="com.uask.tests.ChatUITest">
         <methods>
-          <include name="tc05VerifyMultilingualSupport"/>
           <include name="setupClass"/>
           <include name="setupReport"/>
+          <include name="tc04VerifyAIResponsesRendered"/>
           <include name="tearDown"/>
           <include name="tearDownReport"/>
           <include name="setup"/>
         </methods>
       </class> <!-- com.uask.tests.ChatUITest -->
     </classes>
-  </test> <!-- Desktop Tests(failed) -->
-</suite> <!-- Failed suite [UAsk Test Suite] -->
+  </test> <!-- Default test(failed) -->
+</suite> <!-- Failed suite [Default suite] -->

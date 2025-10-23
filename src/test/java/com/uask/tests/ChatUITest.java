@@ -202,7 +202,7 @@ public class ChatUITest extends BaseTest {
 
 		try {
 			LoginPage loginPage = new LoginPage(driver);
-			loginPage.clickOnLoginUsingCredential();
+			//loginPage.clickOnLoginUsingCredential();
 			loginPage.loginToUAsk(userName, password);
 
 			ChatPage chatPage = new ChatPage(driver);

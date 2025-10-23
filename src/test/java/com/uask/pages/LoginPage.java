@@ -14,7 +14,8 @@ public class LoginPage {
 
 	WebDriver driver;
 	
-	@FindBy(xpath = "//button[text()='Login using Credentials']")
+	//@FindBy(xpath = "//button[text()='Login using Credentials']")
+	@FindBy(xpath = "//button[text()='Log in with email']")
     WebElement lnkLoginUsingCredential;
 	
 	@FindBy(id = "email")
@@ -25,6 +26,9 @@ public class LoginPage {
 	
 	@FindBy(xpath = "//button[text()='Sign in']")
     WebElement btnSignIn;
+	
+	@FindBy(xpath = "//button[text()='Log in']")
+    WebElement btnLogIn;
 	
 	public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -54,7 +58,7 @@ public class LoginPage {
 		Log.event("Login to the U-Ask");
 		txtEmail.sendKeys(email);
 		txtPassWord.sendKeys(password);
-		btnSignIn.click();
+		btnLogIn.click();
 		Log.message("Logged into U-Ask as (" + email + "/" + password + ")"); 
     }
 }

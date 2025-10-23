@@ -105,7 +105,7 @@ public class TextUtils {
         return text;
     }
     
-	// ------------------- Semantic similarity using DJL 0.27.0 -------------------
+	// ------------------- Semantic similarity using a pre-trained sentence embedding model -------------------
     
     /**
      * Computes the semantic similarity between two pieces of text using a pre-trained

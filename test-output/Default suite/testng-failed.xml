@@ -3,17 +3,16 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.uask.tests.ChatAPITest">
+      <class name="com.uask.tests.ChatUITest">
         <methods>
           <include name="setupClass"/>
           <include name="setupReport"/>
+          <include name="tc04VerifyAIResponsesRendered"/>
           <include name="tearDown"/>
-          <include name="tc04VerifyCleanFormatting"/>
           <include name="tearDownReport"/>
           <include name="setup"/>
-          <include name="setup"/>
         </methods>
-      </class> <!-- com.uask.tests.ChatAPITest -->
+      </class> <!-- com.uask.tests.ChatUITest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

@@ -13,11 +13,15 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
-        Log.fail("Test Failed");
-        if (result.getThrowable() != null) {
-            Log.errorEvent("Test Failed: " + result.getThrowable().getMessage(), result.getThrowable());
-        }
-    }
+		String testName = result.getMethod().getMethodName();
+		Throwable throwable = result.getThrowable();
+
+		System.out.println("Test FAILED: " + testName);
+		if (throwable != null) {
+			String reason = throwable.toString().split("\n")[0];
+			System.out.println("   Reason: " + reason);
+		}
+	}
 
     @Override
     public void onTestSkipped(ITestResult result) {

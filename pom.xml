@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.u-ask</groupId>
+	<groupId>com.uask</groupId>
 	<artifactId>u-ask-automation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>UAsk Automation</name>
@@ -139,6 +139,11 @@
 	</dependencies>
 
 	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+		</testResources>
 		<plugins>
 			<!-- Disable TestNG default listeners -->
 			<plugin>
@@ -160,7 +165,7 @@
 						</property>
 						<property>
 							<name>listener</name>
-							<value>utils.TestListener</value>
+							<value>com.uask.utils.TestListener</value>
 						</property>
 					</properties>
 				</configuration>
