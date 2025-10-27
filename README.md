@@ -14,14 +14,12 @@ Valid GovGPT credentials configured in config.properties
 
 ```text
 src/
-├─ main/
-│  └─ java/
-│     └─ utils/          # Utility classes (JsonUtils, TestData, TextUtils, Log, ConfigReader)
 └─ test/
    └─ java/
       ├─ com.uask.tests/ # Test classes (ChatAPITest, SecurityTests, ChatUITest)
       ├─ com.uask.pages/ # POM (LoginPage, ChatPage)
-      └─ com.uask.base/  # Reusable POM (APIUtils, UAskUtils, BaseTest, DriverFactory)
+      ├─ com.uask.base/  # Reusable POM (APIUtils, UAskUtils, BaseTest, DriverFactory)
+      └─ utils/          # Utility classes (JsonUtils, TestData, TextUtils, Log, ConfigReader)
 
 test-data.json            # Test data for UI, API & security tests
 testng.xml                # TestNG suite configuration
